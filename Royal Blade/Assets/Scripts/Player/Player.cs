@@ -7,7 +7,7 @@ using TMPro;
 public class Player : Entity
 {
     public PlayerCharacter character;
-    private Animator playerAnimator;
+    public Animator playerAnimator;
     [SerializeField] private Image playerHpBar;
     [SerializeField] private TextMeshProUGUI playerHpText;
     [SerializeField] private Transform handTransform;

@@ -6,7 +6,7 @@ public class Warrior : PlayerCharacter
 {
     public override void Attack()
     {
-        Debug.Log("Attack");
+        
     }
 
     public override void AttackSkill()
@@ -21,7 +21,7 @@ public class Warrior : PlayerCharacter
 
     public override void Jump()
     {
-        Debug.Log("Jump");
+        PlayerController.Instance.rigidBody.AddForce(Vector3.up * 30f, ForceMode.Impulse);
     }
 
     public override void JumpSkill()

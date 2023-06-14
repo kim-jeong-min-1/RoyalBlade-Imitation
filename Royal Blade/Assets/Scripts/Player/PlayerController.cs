@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class PlayerController : Singleton<PlayerController>
 {
-    private Player player;
-    private Rigidbody rigidBody;
-
+    [HideInInspector] public Player player;
+    [HideInInspector] public Rigidbody rigidBody;
     [SerializeField] private SkillButton jumpButton;
     [SerializeField] private SkillButton attackButton;
     [SerializeField] private Button guardButton;
 
     private readonly float GUARD_COOL_TIME = 2.5f;
     private float curGuardCool = 2.5f;
+    private bool isGround = true;
 
     private void Awake()
     {
@@ -29,10 +29,25 @@ public class PlayerController : Singleton<PlayerController>
         UIManager.Instance.GuardSkillUI_Update(curGuardCool / GUARD_COOL_TIME);
     }
 
-    public void Jump() => player.character.Jump();
+    #region Input
+    public void Jump()
+    {
+        if (!isGround) return;
+
+        player.character.Jump();
+        jumpButton.SkillGaugeUP();
+        isGround = false;   
+    }
     public void JumpSkill() => player.character.JumpSkill();
-    public void Attack() => player.character.Attack();
+
+    public void Attack()
+    {
+        player.playerAnimator.SetTrigger("Attack");
+        player.character.Attack();
+        attackButton.SkillGaugeUP();
+    }
     public void AttackSkill() => player.character.AttackSkill();
+
     public void Guard()
     {
         if(curGuardCool >= GUARD_COOL_TIME)
@@ -41,6 +56,7 @@ public class PlayerController : Singleton<PlayerController>
             player.character.Guard();
         }
     }
+    #endregion
 
     private void SetPlayerButton()
     {
@@ -56,5 +72,10 @@ public class PlayerController : Singleton<PlayerController>
     public void SetPlayerCharacter(CharacterData data)
     {
         player.PlayerInit(data);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Ground")) isGround = true;
     }
 }

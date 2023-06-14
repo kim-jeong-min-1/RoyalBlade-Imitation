@@ -47,6 +47,9 @@ public class SkillButton : MonoBehaviour
     public void PressButton()
     {
         ButtonActivate();
+    }
+    public void SkillGaugeUP()
+    {
         CurSkillGauge++;
     }
 
