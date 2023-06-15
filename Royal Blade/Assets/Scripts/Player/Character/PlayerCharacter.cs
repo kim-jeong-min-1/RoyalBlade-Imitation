@@ -24,7 +24,7 @@ public abstract class PlayerCharacter : MonoBehaviour
 
     protected virtual void OnDrawGizmos()
     {
-        Gizmos.color = Color.cyan;
+        Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, guardRaidus);
     }
 }
