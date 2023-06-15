@@ -13,6 +13,8 @@ public class PlayerController : Singleton<PlayerController>
 
     private readonly float GUARD_COOL_TIME = 2.5f;
     private float curGuardCool = 2.5f;
+    private readonly float HIT_COOL_TIME = 1f;
+    private float hitCool = 1f;
     private bool isGround = true;
 
     private void Awake()
@@ -26,6 +28,7 @@ public class PlayerController : Singleton<PlayerController>
     private void Update()
     {
         curGuardCool += Time.deltaTime;
+        hitCool += Time.deltaTime;
         UIManager.Instance.GuardSkillUI_Update(curGuardCool / GUARD_COOL_TIME);
     }
 
@@ -81,5 +84,14 @@ public class PlayerController : Singleton<PlayerController>
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Ground")) isGround = true;
+
+        if(collision.collider.CompareTag("Drop") && isGround)
+        {
+            if (hitCool < HIT_COOL_TIME) return;
+
+            hitCool = 0;
+            player.HP--;
+            UIManager.Instance.HitUIOn();
+        }
     }
 }

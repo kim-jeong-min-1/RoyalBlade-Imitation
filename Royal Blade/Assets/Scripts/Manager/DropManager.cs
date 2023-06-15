@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class DropManager : Singleton<DropManager>
 {
-    public Queue<DropObject> dropQueue = new Queue<DropObject>();
+    public List<DropObject> dropList = new List<DropObject>();
 
     [SerializeField] private List<DropObject> dropObjects;
     [SerializeField] private Transform dropObjectGroup;
@@ -35,20 +36,32 @@ public class DropManager : Singleton<DropManager>
 
             for (int i = 0; i < count; i++)
             {
-                DropObject dropObject = Instantiate((spawnCount % 2 == 0) ? dropObjects[0] : dropObjects[1], 
+                DropObject dropObject = Instantiate((spawnCount % 2 == 0) ? dropObjects[0] : dropObjects[1],
                     spawnPoint.position, Quaternion.identity, dropObjectGroup);
-                dropObject.DropObjectInit(Hp, level);
-                dropQueue.Enqueue(dropObject);
 
-                yield return WaitManager.GetWait(0.5f);
+                dropObject.DropObjectInit(Hp, level);
+                dropList.Add(dropObject);
+
+                yield return WaitManager.GetWait(1f);
                 spawnCount++;
-                curTime += 0.5f;
-            }     
+                curTime += 1f;
+            }
 
             float delay = waveDelay + Random.Range(1f, 2f);
             yield return WaitManager.GetWait(delay);
 
             curTime += delay;
+        }
+        GameManager.Instance.WaveLevel++;
+    }
+
+    public void KnockBackAll_DropObject()
+    {
+        for (int i = 0; i < dropList.Count; i++)
+        {
+            if (dropList[i] == null) continue;
+
+            dropList[i].KnockBack();
         }
     }
 }

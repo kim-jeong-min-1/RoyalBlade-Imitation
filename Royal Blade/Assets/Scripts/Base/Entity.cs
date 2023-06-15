@@ -1,30 +1,38 @@
  using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
+    [SerializeField] private Image playerHpBar;
+    [SerializeField] private TextMeshProUGUI playerHpText;
+
     protected float maxHp;
     protected float hp;
-    protected virtual float HP
+    public float HP
     {
         get => hp;
         set
         {
             hp = value;
+            if (hp <= 0) Die();
 
-            if(hp > maxHp) hp = maxHp;
-            else if (hp <= 0) Die();
+            playerHpBar.fillAmount = hp / maxHp;
+            playerHpText.text = $"{hp}/{maxHp}";
         }
-    } 
+    }
+    public bool isDie { get; private set; }
 
-    public void GetDamage(float damage)
+    public virtual void GetDamage(float damage)
     {
         HP -= damage;
     }
 
     protected virtual void Die()
     {
+        isDie = true;
         Destroy(gameObject);
     }
 }

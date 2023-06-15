@@ -5,6 +5,7 @@ using UnityEngine;
 public static class WaitManager 
 {
     private static Dictionary<float, WaitForSeconds> waits = new Dictionary<float, WaitForSeconds>();
+    private static Dictionary<float, WaitForSecondsRealtime> realWaits = new Dictionary<float, WaitForSecondsRealtime>();
 
     public static WaitForSeconds GetWait(float waitTime)
     {
@@ -14,5 +15,14 @@ public static class WaitManager
         }
 
         return waits[waitTime];
+    }
+    public static WaitForSecondsRealtime GetRealWait(float waitTime)
+    {
+        if (!realWaits.ContainsKey(waitTime))
+        {
+            realWaits.Add(waitTime, new WaitForSecondsRealtime(waitTime));
+        }
+
+        return realWaits[waitTime];
     }
 }

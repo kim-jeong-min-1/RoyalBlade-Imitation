@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class PlayerCharacter : MonoBehaviour
 {
     protected PlayerController pController => PlayerController.Instance;
-    [SerializeField] private float guardRaidus;
+    [SerializeField] protected float guardRaidus;
 
     public abstract void Attack();
     public abstract void AttackSkill();
@@ -18,7 +18,7 @@ public abstract class PlayerCharacter : MonoBehaviour
     {
         if (Physics2D.OverlapCircle(transform.position, guardRaidus, LayerMask.GetMask("Drop")))
         {
-            Debug.Log("Guard!");
+            DropManager.Instance.KnockBackAll_DropObject();
         }
     }
 

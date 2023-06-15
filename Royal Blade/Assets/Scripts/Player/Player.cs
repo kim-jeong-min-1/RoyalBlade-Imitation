@@ -1,27 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class Player : Entity
 {
     public PlayerCharacter character;
     public Animator playerAnimator;
-    [SerializeField] private Image playerHpBar;
-    [SerializeField] private TextMeshProUGUI playerHpText;
     [SerializeField] private Transform handTransform;
 
-    protected override float HP
-    {
-        get => base.hp;
-        set
-        {
-            base.hp = value;
-            playerHpBar.fillAmount = hp / maxHp;
-            playerHpText.text = $"{hp}/{maxHp}";
-        }
-    }
     public float Damage { get; private set; }
     public float JumpForce { get; private set; }
 
@@ -38,5 +24,11 @@ public class Player : Entity
 
         character = Instantiate(data.Character, transform);
         Instantiate(data.Weapon, handTransform);
+    }
+
+    protected override void Die()
+    {
+        base.Die();
+        GameManager.Instance.GameOver();
     }
 }
