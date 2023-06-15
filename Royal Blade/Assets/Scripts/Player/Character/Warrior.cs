@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class Warrior : PlayerCharacter
 {
+    [SerializeField] private Transform attackCenter;
+    [SerializeField] private Vector2 attackSize;
+
     public override void Attack()
     {
-        
+        Collider2D collider = 
+            Physics2D.OverlapBox(attackCenter.position, attackSize, 0, LayerMask.GetMask("Drop"));
+
+        if(collider != null)
+        {
+            collider.GetComponent<Entity>().GetDamage(pController.player.Damage);
+        } 
     }
 
     public override void AttackSkill()
@@ -14,18 +23,15 @@ public class Warrior : PlayerCharacter
         Debug.Log("Attack Skill");
     }
 
-    public override void Guard()
-    {
-        Debug.Log("Guard");
-    }
-
-    public override void Jump()
-    {
-        PlayerController.Instance.rigidBody.AddForce(Vector3.up * 30f, ForceMode.Impulse);
-    }
-
     public override void JumpSkill()
     {
         Debug.Log("Jump Skill");
+    }
+
+    protected override void OnDrawGizmos()
+    {
+        base.OnDrawGizmos();
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(attackCenter.position, attackSize);
     }
 }

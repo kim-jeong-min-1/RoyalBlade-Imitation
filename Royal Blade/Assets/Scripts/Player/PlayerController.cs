@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : Singleton<PlayerController>
 {
     [HideInInspector] public Player player;
-    [HideInInspector] public Rigidbody rigidBody;
+    [HideInInspector] public Rigidbody2D rigidBody;
     [SerializeField] private SkillButton jumpButton;
     [SerializeField] private SkillButton attackButton;
     [SerializeField] private Button guardButton;
@@ -18,7 +18,7 @@ public class PlayerController : Singleton<PlayerController>
     private void Awake()
     {
         player = GetComponent<Player>();
-        rigidBody = GetComponent<Rigidbody>();
+        rigidBody = GetComponent<Rigidbody2D>();
 
         SetInstance();
         SetPlayerButton();
@@ -42,10 +42,14 @@ public class PlayerController : Singleton<PlayerController>
 
     public void Attack()
     {
-        player.playerAnimator.SetTrigger("Attack");
+        player.playerAnimator.SetTrigger("Attack");             
+    }
+    public void AttackEvent()
+    {
         player.character.Attack();
         attackButton.SkillGaugeUP();
     }
+
     public void AttackSkill() => player.character.AttackSkill();
 
     public void Guard()
@@ -74,7 +78,7 @@ public class PlayerController : Singleton<PlayerController>
         player.PlayerInit(data);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.CompareTag("Ground")) isGround = true;
     }

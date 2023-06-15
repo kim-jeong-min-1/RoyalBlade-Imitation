@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,10 +16,15 @@ public class Entity : MonoBehaviour
             if(hp > maxHp) hp = maxHp;
             else if (hp <= 0) Die();
         }
+    } 
+
+    public void GetDamage(float damage)
+    {
+        HP -= damage;
     }
 
     protected virtual void Die()
     {
-
+        Destroy(gameObject);
     }
 }

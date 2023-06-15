@@ -17,3 +17,4 @@ MonoBehaviour:
   animator: {fileID: 9100000, guid: db5df4fc6ee0c8c42964a25ab4389ce4, type: 2}
   hp: 3
   damage: 20
+  jumpForce: 75

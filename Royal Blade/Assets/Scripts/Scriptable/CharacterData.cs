@@ -24,4 +24,8 @@ public class CharacterData : ScriptableObject
     [SerializeField]
     private float damage;
     public float Damage { get { return damage; } }
+
+    [SerializeField]
+    private float jumpForce;
+    public float JumpForce { get { return jumpForce; } }
 }

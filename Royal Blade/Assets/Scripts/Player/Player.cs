@@ -23,6 +23,7 @@ public class Player : Entity
         }
     }
     public float Damage { get; private set; }
+    public float JumpForce { get; private set; }
 
     private void Awake() => playerAnimator = GetComponent<Animator>();
 
@@ -31,10 +32,11 @@ public class Player : Entity
         base.maxHp = data.HP;
         base.hp = base.maxHp;
         Damage = data.Damage;
+        JumpForce = data.JumpForce;
 
         playerAnimator.runtimeAnimatorController = data.Animator;
-        character = data.Character;
 
+        character = Instantiate(data.Character, transform);
         Instantiate(data.Weapon, handTransform);
     }
 }

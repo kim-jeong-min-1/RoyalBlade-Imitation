@@ -16,7 +16,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 {
                     instance = new GameObject(typeof(T).Name).AddComponent<T>();
                 }
-                DontDestroyOnLoad(instance.gameObject);
             }
             return instance;
         }
@@ -37,7 +36,6 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
                 {
                     instance = new GameObject(typeof(T).Name).AddComponent<T>();
                 }
-                DontDestroyOnLoad(instance.gameObject);
             }
         }
     }
