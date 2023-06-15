@@ -30,6 +30,8 @@ public class GameManager : Singleton<GameManager>
         PlayerController.Instance.SetPlayerCharacter(warriorData);
         //PlayerController.Instance.SetPlayerCharacter(hunterData);
         WaveLevel++;
+
+        Application.targetFrameRate = 60;
     }
 
     void Update()
